@@ -22,8 +22,10 @@ class CustomObject:
                 pickle.dump(self, f)
         except IOError:
             print(f"Cant write in {filename}")
+            return None
         except pickle.PicklingError:
             print("Cant serialize the object")
+            return None
 
     @classmethod
     def deserialize(cls, filename):
@@ -33,5 +35,7 @@ class CustomObject:
             return daclass
         except IOError:
             print(f"Cant read {filename}")
+            return None
         except pickle.UnpicklingError:
             print("Cant deserialize the object")
+            return None
