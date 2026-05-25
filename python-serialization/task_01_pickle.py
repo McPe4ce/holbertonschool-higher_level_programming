@@ -5,6 +5,7 @@ import pickle
 
 
 class CustomObject:
+    """Class that represents a custom object, will be serialized later"""
     def __init__(self, name, age, is_student):
         self.__name = name
         self.__age = age
