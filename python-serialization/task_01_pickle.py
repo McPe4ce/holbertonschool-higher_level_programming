@@ -20,8 +20,9 @@ class CustomObject:
         try:
             with open(f"{filename}", "wb") as f:
                 pickle.dump(self, f)
-        except (IOError, pickle.UnpicklingError, EOFError, Exception) as e:
-            print(f"Cant read {filename}")
+                return None
+        except (IOError, pickle.PicklingError, EOFError, Exception) as e:
+            print(f"Cant write in {filename}")
             return None
 
     @classmethod
