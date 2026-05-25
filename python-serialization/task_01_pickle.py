@@ -20,11 +20,8 @@ class CustomObject:
         try:
             with open(f"{filename}", "wb") as f:
                 pickle.dump(self, f)
-        except IOError:
-            print(f"Cant write in {filename}")
-            return None
-        except pickle.PicklingError:
-            print("Cant serialize the object")
+        except (IOError, pickle.UnpicklingError, EOFError, Exception) as e:
+            print(f"Cant read {filename}")
             return None
 
     @classmethod
@@ -33,9 +30,6 @@ class CustomObject:
             with open(filename, "rb") as f:
                 daclass = pickle.load(f)
             return daclass
-        except IOError:
+        except (IOError, pickle.UnpicklingError, EOFError, Exception) as e:
             print(f"Cant read {filename}")
-            return None
-        except pickle.UnpicklingError:
-            print("Cant deserialize the object")
             return None
