@@ -18,5 +18,5 @@ if not State:
     print("Nothing\n")
 else:
     for da_state in session.query(State).\
-        filter(State.id == 1):
+            filter(State.id == 1):
         print(f"{da_state.id}: {da_state.name}")
