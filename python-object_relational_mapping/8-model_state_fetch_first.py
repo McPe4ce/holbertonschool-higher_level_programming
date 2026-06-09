@@ -16,9 +16,9 @@ if __name__ == "__main__":
     Session = sessionmaker(bind=vroom)
     session = Session()
 
-    if not State:
-        print("Nothing\n")
+    da_state = session.query(State).order_by(State.id).first()
+
+    if da_state is None:
+        print("Nothing")
     else:
-        for da_state in session.query(State).\
-                filter(State.id == 1):
-            print(f"{da_state.id}: {da_state.name}")
+        print(f"{da_state.id}: {da_state.name}")
