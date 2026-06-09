@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Class for the states table in the SQL"""
 
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
