@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""Query to fetch all the states using SQL alchemy"""
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from model_state import Base, State
