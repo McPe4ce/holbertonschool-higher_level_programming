@@ -14,12 +14,13 @@ if __name__ == "__main__":
     Session = sessionmaker(bind=vroom)
     session = Session()
 
-    da_state_id = session.query(State).filter(
+    da_state = session.query(State).filter(
         State.name.like(argv[4],))
 
-    if da_state_id is None:
+    if da_state is None:
         print("Not found")
     else:
-        print(da_state_id.id)
+        for da_id in da_state:
+            print(da_id.id)
 
     session.close()
