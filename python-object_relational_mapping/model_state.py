@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-"""Class for the states table in the SQL"""
+"""Module that maps the states table in the SQL"""
 
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
+
 Base = declarative_base()
+
 
 class State(Base):
     """Class for the states table in the SQL"""
