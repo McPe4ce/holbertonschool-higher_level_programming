@@ -15,6 +15,5 @@ if __name__ == "__main__":
     Session = sessionmaker(bind=engine)
     session = Session()
 
-
     for da_state in session.query(State).order_by(State.id):
         print(f"{da_state.id}: {da_state.name}")
