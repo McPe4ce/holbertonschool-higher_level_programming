@@ -15,12 +15,11 @@ if __name__ == "__main__":
     session = Session()
 
     da_state = session.query(State).filter(
-        State.name.like(argv[4],))
+        State.name == argv[4]).first()
 
     if da_state is None:
         print("Not found")
     else:
-        for da_id in da_state:
-            print(da_id.id)
+        print(da_state.id)
 
     session.close()
