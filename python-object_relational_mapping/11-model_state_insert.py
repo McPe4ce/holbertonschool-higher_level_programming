@@ -1,0 +1,23 @@
+#!/usr/bin/python3
+
+from sys import argv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from model_state import Base, State
+
+if __name__ == "__main__":
+    vroom = create_engine(
+        "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
+            argv[1], argv[2], argv[3]),
+        pool_pre_ping=True)
+
+    Session = sessionmaker(bind=vroom)
+    session = Session()
+
+    Lousianne = State(name='Louisiana')
+
+    session.add(Lousianne)
+    session.commit()
+
+    for da_state in session.query(State).order_by(State.id):
+        print(f"{da_state.id}: {da_state.name}")
