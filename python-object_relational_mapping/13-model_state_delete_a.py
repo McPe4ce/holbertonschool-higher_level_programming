@@ -15,7 +15,8 @@ if __name__ == "__main__":
     Session = sessionmaker(bind=vroom)
     session = Session()
 
-    da_state = session.query(State).filter(State.name.like('%a%')).order_by(State.id).all()
+    da_state = session.query(State).filter(
+        State.name.like('%a%')).order_by(State.id).all()
 
     for row in da_state:
         session.delete(row)
