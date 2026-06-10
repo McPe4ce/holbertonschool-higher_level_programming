@@ -20,5 +20,9 @@ if __name__ == "__main__":
     session.add(Lousianne)
     session.commit()
 
-    for da_state in session.query(State).order_by(State.id):
-        print(f"{da_state.id}: {da_state.name}")
+    da_state = session.query(State).order_by(State.id.desc()).first()
+
+    if da_state is None:
+        print("Nothing")
+    else:
+        print(f"{da_state.id}")
