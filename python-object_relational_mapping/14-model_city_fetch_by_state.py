@@ -12,10 +12,12 @@ if __name__ == "__main__":
         "mysql+mysqldb://{}:{}@localhost:3306/{}".format(
             argv[1], argv[2], argv[3]),
         pool_pre_ping=True)
-    
+
     Session = sessionmaker(bind=vroom)
     session = Session()
 
-    
-    for da_states, da_cities in session.query(State, City).filter(State.id == City.state_id).order_by(City.id):
-        print("{}: ({}) {}".format(da_states.name, da_cities.id, da_cities.name))
+    for da_states, da_cities in session.query(State, City).filter(
+            State.id == City.state_id).order_by(City.id):
+
+        print("{}: ({}) {}".format(
+            da_states.name, da_cities.id, da_cities.name))
