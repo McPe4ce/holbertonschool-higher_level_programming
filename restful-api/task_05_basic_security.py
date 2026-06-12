@@ -16,9 +16,8 @@ auth = HTTPBasicAuth()
 jwt = JWTManager(app)
 
 users = {
-    "Johnny": {"password": generate_password_hash("Sinful"), "role": "user"},
-    "Devil": {"password": generate_password_hash("Maycry"), "role": "admin"},
-    "Yamazaki": {"password": generate_password_hash("Hiro"), "role": "user"},
+    "user1": {"username": "user1", "password": generate_password_hash("password"), "role": "user"},
+    "admin1": {"username": "admin1", "password": generate_password_hash("password"), "role": "admin"},
 }
 
 
