@@ -60,7 +60,7 @@ def add_user():
     if username in users:
         abort(409, description="")
     users[username] = new_user
-    return jsonify(new_user)
+    return jsonify(new_user), 201
 
 
 if __name__ == "__main__":
