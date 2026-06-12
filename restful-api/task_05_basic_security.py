@@ -94,3 +94,7 @@ def admin_only():
     if claims.get("role") != "admin":
         return jsonify({"error": "Admin access required"}), 403
     return "Admin Access: Granted"
+
+
+if __name__ == "__main__":
+    app.run(port=5000)
