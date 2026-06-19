@@ -1,0 +1,497 @@
+openapi: 3.0.3
+info:
+  title: Dungeon Quest API
+  version: "1.0.0"
+  description: >
+    A simple API that allows players to create heroes, explore dungeons,
+    fight monsters, collect items, and complete quests.
+
+servers:
+  - url: https://api.dungeonquest.com/v1
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new player account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        "201":
+          description: Account created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/login:
+    post:
+      summary: Log in and receive a token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+
+  /characters:
+    get:
+      summary: List characters
+      responses:
+        "200":
+          description: List of characters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Character'
+    post:
+      summary: Create a character
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterCreate'
+      responses:
+        "201":
+          description: Character created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+
+  /characters/{characterId}:
+    parameters:
+      - name: characterId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Get character details
+      responses:
+        "200":
+          description: Character found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        "404":
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update a character
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterUpdate'
+      responses:
+        "200":
+          description: Character updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "404":
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete a character
+      responses:
+        "204":
+          description: Character deleted
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /dungeons:
+    get:
+      summary: List dungeons
+      responses:
+        "200":
+          description: List of dungeons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dungeon'
+    post:
+      summary: Create a dungeon
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DungeonCreate'
+      responses:
+        "201":
+          description: Dungeon created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dungeon'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+
+  /dungeons/{dungeonId}:
+    parameters:
+      - name: dungeonId
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Get dungeon details
+      responses:
+        "200":
+          description: Dungeon found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dungeon'
+        "404":
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Update a dungeon
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DungeonUpdate'
+      responses:
+        "200":
+          description: Dungeon updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dungeon'
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "404":
+          $ref: '#/components/responses/NotFound'
+    delete:
+      summary: Delete a dungeon
+      responses:
+        "204":
+          description: Dungeon deleted
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /characters/{characterId}/enter-dungeon:
+    parameters:
+      - name: characterId
+        in: path
+        required: true
+        schema:
+          type: integer
+    post:
+      summary: Enter a dungeon
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [dungeonId]
+              properties:
+                dungeonId:
+                  type: integer
+      responses:
+        "200":
+          description: Dungeon entered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /characters/{characterId}/move:
+    parameters:
+      - name: characterId
+        in: path
+        required: true
+        schema:
+          type: integer
+    post:
+      summary: Move to another room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [direction]
+              properties:
+                direction:
+                  type: string
+                  enum: [north, south, east, west]
+      responses:
+        "200":
+          description: Character moved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+  /characters/{characterId}/attack:
+    parameters:
+      - name: characterId
+        in: path
+        required: true
+        schema:
+          type: integer
+    post:
+      summary: Attack a monster
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [targetId]
+              properties:
+                targetId:
+                  type: integer
+      responses:
+        "200":
+          description: Attack completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttackResult'
+        "404":
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Player:
+      type: object
+      required: [id, username, email]
+      properties:
+        id:
+          type: integer
+          example: 42
+        username:
+          type: string
+          example: shadowmage
+        email:
+          type: string
+          format: email
+        createdAt:
+          type: string
+          format: date-time
+
+    RegisterRequest:
+      type: object
+      required: [username, email, password]
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    AuthToken:
+      type: object
+      required: [token]
+      properties:
+        token:
+          type: string
+        expiresIn:
+          type: integer
+          description: Seconds until the token stops being valid.
+
+    Character:
+      type: object
+      required: [id, name, class, level, health]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        class:
+          type: string
+          enum: [warrior, mage, rogue, cleric]
+        level:
+          type: integer
+          minimum: 1
+        health:
+          type: integer
+          minimum: 0
+        gold:
+          type: integer
+          minimum: 0
+        currentDungeonId:
+          type: integer
+          nullable: true
+
+    CharacterCreate:
+      type: object
+      required: [name, class]
+      properties:
+        name:
+          type: string
+        class:
+          type: string
+          enum: [warrior, mage, rogue, cleric]
+
+    CharacterUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        class:
+          type: string
+          enum: [warrior, mage, rogue, cleric]
+
+    Dungeon:
+      type: object
+      required: [id, name, difficulty]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        difficulty:
+          type: string
+          enum: [easy, normal, hard, nightmare]
+        roomCount:
+          type: integer
+          minimum: 1
+        recommendedLevel:
+          type: integer
+          minimum: 1
+
+    DungeonCreate:
+      type: object
+      required: [name, difficulty]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        difficulty:
+          type: string
+          enum: [easy, normal, hard, nightmare]
+        roomCount:
+          type: integer
+          minimum: 1
+        recommendedLevel:
+          type: integer
+          minimum: 1
+
+    DungeonUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        difficulty:
+          type: string
+          enum: [easy, normal, hard, nightmare]
+        roomCount:
+          type: integer
+          minimum: 1
+        recommendedLevel:
+          type: integer
+          minimum: 1
+
+    AttackResult:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+          example: You hit the goblin for 8 damage.
+        damageDealt:
+          type: integer
+          minimum: 0
+        targetDefeated:
+          type: boolean
+        characterHealth:
+          type: integer
+          minimum: 0
+
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: Character not found.
