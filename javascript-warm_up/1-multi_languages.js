@@ -2,7 +2,7 @@
 
 const myc = 'C is fun';
 const mypyth = 'Python is cool';
-const myJava = 'Javascript is amazing';
+const myJava = 'JavaScript is amazing';
 
 console.log(myc);
 console.log(mypyth);
