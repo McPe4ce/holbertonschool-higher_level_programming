@@ -45,7 +45,7 @@ def products():
         try:
             product_id = int(product_id)
         except ValueError:
-            return "Invalid product ID", 400
+            return "Invalid product ID"
         products_list = [p for p in products_list if p['id'] == product_id]
         if not products_list:
             return "Product not found", 404
