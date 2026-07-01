@@ -19,7 +19,7 @@ def contact():
 def items():
     with open("items.json", "r", encoding="utf-8") as f:
         da_data = json.load(f)
-    return render_template('items.html', items=da_data["items"])
+    return render_template('items.html', items=da_data.get("items", []))
 
 
 if __name__ == '__main__':
