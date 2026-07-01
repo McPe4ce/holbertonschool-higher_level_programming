@@ -24,7 +24,7 @@ def generate_invitations(template, attendees):
         invitation = template
         for key, value in attendee.items():
             placeholder = "{" + key + "}"
-            invitation = invitation.replace(placeholder, str(value) if value is not None else "N/A")
+            invitation = invitation.replace(placeholder, str(value) if value is not None else 'N/A')
 
         file = f"output_{i}.txt"
         try:
