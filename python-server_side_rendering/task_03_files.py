@@ -48,7 +48,7 @@ def products():
             return "Invalid product ID"
         products_list = [p for p in products_list if p['id'] == product_id]
         if not products_list:
-            return "Product not found", 404
+            return "Product not found"
 
     return render_template('product_display.html', products=products_list)
 
