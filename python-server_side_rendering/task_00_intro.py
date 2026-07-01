@@ -20,9 +20,12 @@ def generate_invitations(template, attendees):
         print("Error: Invalid data type")
         return
     
+    placeholders = ["name", "event_title", "event_date", "event_location"]
+
     for i, attendee in enumerate(attendees, start=1):
         invitation = template
-        for key, value in attendee.items():
+        for key in placeholders:
+            value = attendee.get(key)
             placeholder = "{" + key + "}"
             invitation = invitation.replace(placeholder, str(value) if value is not None else 'N/A')
 
