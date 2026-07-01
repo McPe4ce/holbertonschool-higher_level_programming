@@ -28,7 +28,7 @@ def products():
     product_id = request.args.get('id')
 
     if source not in ('json', 'csv'):
-        return "Wrong source", 400
+        return "Wrong source"
     
     if source == 'json':
         with open("products.json", "r", encoding="utf-8") as f:
